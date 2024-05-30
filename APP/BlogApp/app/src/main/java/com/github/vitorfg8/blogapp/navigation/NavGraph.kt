@@ -17,11 +17,18 @@ fun NavGraph() {
             HomeScreen(onPostClick = {
 
             }, onAddPostClick = {
-
+                navController.navigate("addPost")
             })
         }
         composable("addPost") {
-            AddPostScreen()
+            AddPostScreen(
+                onBackPressed = {
+                    navController.navigateUp()
+                },
+                onPostSaved = {
+                    navController.navigateUp()
+                }
+            )
         }
         composable("postDetails") {
             PostDetailsScreen()
