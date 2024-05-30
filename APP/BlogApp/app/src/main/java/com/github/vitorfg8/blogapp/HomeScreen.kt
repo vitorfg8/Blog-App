@@ -1,4 +1,4 @@
-package com.github.vitorfg8.blogapp.ui
+package com.github.vitorfg8.blogapp
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -29,7 +29,6 @@ import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.github.vitorfg8.blogapp.R
 import com.github.vitorfg8.blogapp.ui.theme.BlogAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

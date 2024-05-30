@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.github.vitorfg8.blogapp.ui.HomeScreen
+import com.github.vitorfg8.blogapp.navigation.NavGraph
 import com.github.vitorfg8.blogapp.ui.theme.BlogAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BlogAppTheme {
-                HomeScreen()
+                NavGraph()
             }
         }
     }
