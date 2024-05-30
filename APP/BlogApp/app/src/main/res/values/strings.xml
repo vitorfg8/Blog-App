@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Blog App</string>
+    <string name="posted_at">postado em %s</string>
+    <string name="new_post">Novo post</string>
 </resources>
