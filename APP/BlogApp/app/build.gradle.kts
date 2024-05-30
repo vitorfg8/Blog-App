@@ -60,7 +60,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation("androidx.compose.ui:ui-text-google-fonts:1.6.7")
+    implementation(libs.androidx.ui.text.google.fonts)
 
 
     testImplementation(libs.junit)
