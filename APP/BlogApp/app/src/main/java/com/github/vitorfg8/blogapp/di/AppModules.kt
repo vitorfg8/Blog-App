@@ -1,8 +1,10 @@
 package com.github.vitorfg8.blogapp.di
 
 import com.github.vitorfg8.blogapp.AddPostViewModel
+import com.github.vitorfg8.blogapp.HomeViewModel
 import com.github.vitorfg8.blogapp.data.respository.BlogPostRepositoryImpl
 import com.github.vitorfg8.blogapp.domain.usecase.GetCurrentFormattedTimeUseCase
+import com.github.vitorfg8.blogapp.domain.usecase.GetPostsUseCase
 import com.github.vitorfg8.blogapp.domain.usecase.SavePostUseCase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -15,6 +17,15 @@ val appModule = module {
                     blogPostsApi = get()
                 )
             ), getCurrentFormattedTimeUseCase = GetCurrentFormattedTimeUseCase()
+        )
+    }
+    viewModel {
+        HomeViewModel(
+            getPostsUseCase = GetPostsUseCase(
+                blogPostRepository = BlogPostRepositoryImpl(
+                    blogPostsApi = get()
+                )
+            )
         )
     }
 }

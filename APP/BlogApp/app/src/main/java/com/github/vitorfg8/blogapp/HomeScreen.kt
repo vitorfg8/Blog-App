@@ -18,6 +18,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -26,16 +28,24 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.github.vitorfg8.blogapp.di.appModule
 import com.github.vitorfg8.blogapp.ui.theme.BlogAppTheme
+import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.KoinApplication
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onPostClick: () -> Unit, onAddPostClick: () -> Unit
+    viewModel: HomeViewModel = koinViewModel(), onPostClick: () -> Unit, onAddPostClick: () -> Unit
 ) {
+
+    viewModel.getPosts()
+    val uiState by viewModel.uiState.collectAsState()
+
     Scaffold(topBar = {
         CenterAlignedTopAppBar(modifier = Modifier.shadow(4.dp),
             colors = TopAppBarDefaults.topAppBarColors(
@@ -56,8 +66,8 @@ fun HomeScreen(
         LazyColumn(
             contentPadding = it
         ) {
-            items(emptyList<String>()) {
-                PostItem(title = "", date = "") {
+            items(uiState.blogPostList) {
+                PostItem(it) {
                     onPostClick()
                 }
             }
@@ -90,22 +100,32 @@ private fun FabNewPost(onClick: () -> Unit) {
 }
 
 @Composable
-private fun PostItem(title: String, date: String, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-            .fillMaxWidth()
-            .clickable {
-                onClick()
-            }
-    ) {
-        Column(Modifier.padding(8.dp)) {
+private fun PostItem(homeBlogPost: HomeBlogPost, onClick: () -> Unit) {
+    Card(modifier = Modifier
+        .padding(horizontal = 8.dp, vertical = 4.dp)
+        .fillMaxWidth()
+        .clickable {
+            onClick()
+        }) {
+        Column(Modifier.padding(16.dp)) {
             Text(
-                text = title,
+                text = homeBlogPost.title,
                 fontFamily = getGoogleFont("AR One Sans"),
-                style = MaterialTheme.typography.titleLarge.copy(fontSize = 18.sp)
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 18.sp, fontWeight = FontWeight.SemiBold
+                )
             )
-            Text(text = date)
+            Text(
+                modifier = Modifier.padding(bottom = 8.dp),
+                text = homeBlogPost.date,
+                style = MaterialTheme.typography.labelSmall
+            )
+            Text(
+                text = homeBlogPost.description,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
     }
 }
@@ -121,7 +141,17 @@ private fun HomeScreenPreview() {
 @Preview
 @Composable
 private fun PostItemPreview() {
-    BlogAppTheme {
-        PostItem("Title", "9:00") {}
+    KoinApplication(application = {
+        modules(appModule)
+    }) {
+        BlogAppTheme {
+            PostItem(
+                HomeBlogPost(
+                    "Hello World!",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+                    "31/05/2024 às 09:00"
+                )
+            ) {}
+        }
     }
 }
