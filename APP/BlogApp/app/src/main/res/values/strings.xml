@@ -6,4 +6,6 @@
     <string name="back">voltar</string>
     <string name="add_post_text">Adicione o texto do post</string>
     <string name="enter_a_title">Insira um título</string>
+    <string name="failed_to_salve_post">Erro ao salvar o post. Tente novamente mais tarde.</string>
+    <string name="failed_to_load">Erro ao carregar. Tente novamente mais tarde.</string>
 </resources>

@@ -15,14 +15,19 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -47,6 +52,13 @@ fun HomeScreen(
 
     viewModel.getPosts()
     val uiState by viewModel.uiState.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    LaunchedEffect(uiState.showError) {
+        if (uiState.showError) {
+            snackbarHostState.showSnackbar(context.getString(R.string.failed_to_load))
+        }
+    }
 
     Scaffold(topBar = {
         CenterAlignedTopAppBar(modifier = Modifier.shadow(4.dp),
@@ -63,11 +75,11 @@ fun HomeScreen(
         FabNewPost {
             onAddPostClick()
         }
-    }) { padding ->
+    }, snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) { padding ->
         LazyColumn(
-            contentPadding = padding
+            modifier = Modifier.padding(padding),
         ) {
-            items(uiState) { list ->
+            items(uiState.postList) { list ->
                 PostItem(list) {
                     onPostClick(
                         it.title, it.description, it.date
@@ -88,7 +100,10 @@ private fun FabNewPost(onClick: () -> Unit) {
 }
 
 @Composable
-private fun PostItem(homeUiState: HomeUiState, onClick: (homeUiState: HomeUiState) -> Unit) {
+private fun PostItem(
+    homeUiState: HomePostUiState,
+    onClick: (homeUiState: HomePostUiState) -> Unit
+) {
     Card(modifier = Modifier
         .padding(horizontal = 8.dp, vertical = 4.dp)
         .fillMaxWidth()
@@ -97,8 +112,7 @@ private fun PostItem(homeUiState: HomeUiState, onClick: (homeUiState: HomeUiStat
         }) {
         Column(Modifier.padding(16.dp)) {
             Text(
-                text = homeUiState.title,
-                style = MaterialTheme.typography.titleLarge.copy(
+                text = homeUiState.title, style = MaterialTheme.typography.titleLarge.copy(
                     fontSize = 18.sp, fontWeight = FontWeight.SemiBold
                 )
             )
@@ -133,7 +147,7 @@ private fun PostItemPreview(@PreviewParameter(LoremIpsum::class) text: String) {
     }) {
         BlogAppTheme {
             PostItem(
-                HomeUiState(
+                HomePostUiState(
                     "Hello World!", text, "31/05/2024 às 09:00"
                 )
             ) {}
