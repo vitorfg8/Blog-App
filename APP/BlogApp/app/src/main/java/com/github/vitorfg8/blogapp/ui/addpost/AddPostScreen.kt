@@ -62,7 +62,7 @@ fun AddPostScreen(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
-            ), value = uiState.postTitle, label = {
+            ), value = uiState.postTitle, placeholder = {
                 Text(
                     text = stringResource(R.string.enter_a_title),
                     style = MaterialTheme.typography.titleMedium
@@ -79,7 +79,7 @@ fun AddPostScreen(
                     disabledIndicatorColor = Color.Transparent
                 ),
                 value = uiState.postDescription,
-                label = {
+                placeholder = {
                     Text(
                         text = stringResource(R.string.add_post_text),
                         style = MaterialTheme.typography.bodySmall
