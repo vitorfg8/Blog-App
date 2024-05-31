@@ -1,11 +1,19 @@
 package com.github.vitorfg8.blogapp
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.github.vitorfg8.blogapp.domain.model.BlogPost
+import com.github.vitorfg8.blogapp.domain.usecase.GetCurrentFormattedTimeUseCase
+import com.github.vitorfg8.blogapp.domain.usecase.SavePostUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class AddPostViewModel : ViewModel() {
+class AddPostViewModel(
+    private val savePostUseCase: SavePostUseCase,
+    private val getCurrentFormattedTimeUseCase: GetCurrentFormattedTimeUseCase,
+) : ViewModel() {
     private val _uiState = MutableStateFlow(AddPostUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -30,7 +38,15 @@ class AddPostViewModel : ViewModel() {
 
     fun savePost() {
         if (uiState.value.isButtonEnabled) {
-            //TODO
+            viewModelScope.launch {
+                savePostUseCase(
+                    BlogPost(
+                        title = uiState.value.postTitle,
+                        description = uiState.value.postDescription,
+                        date = getCurrentFormattedTimeUseCase()
+                    )
+                )
+            }
         }
     }
 }

@@ -25,12 +25,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.github.vitorfg8.blogapp.di.appModule
 import com.github.vitorfg8.blogapp.ui.theme.BlogAppTheme
+import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.KoinApplication
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPostScreen(
-    viewModel: AddPostViewModel = AddPostViewModel(),
+    viewModel: AddPostViewModel = koinViewModel(),
     onBackPressed: () -> Unit,
     onPostSaved: () -> Unit
 ) {
@@ -102,7 +105,12 @@ fun AddPostScreen(
 @Preview
 @Composable
 private fun AddPostScreenPreview() {
-    BlogAppTheme {
-        AddPostScreen(onBackPressed = {}, onPostSaved = {})
+
+    KoinApplication(application = {
+        modules(appModule)
+    }) {
+        BlogAppTheme {
+            AddPostScreen(onBackPressed = {}, onPostSaved = {})
+        }
     }
 }
