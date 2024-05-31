@@ -39,14 +39,28 @@ class AddPostViewModel(
     fun savePost() {
         if (uiState.value.isButtonEnabled) {
             viewModelScope.launch {
-                savePostUseCase(
-                    BlogPost(
-                        title = uiState.value.postTitle,
-                        description = uiState.value.postDescription,
-                        date = getCurrentFormattedTimeUseCase()
+                try {
+                    savePostUseCase(
+                        BlogPost(
+                            title = uiState.value.postTitle,
+                            description = uiState.value.postDescription,
+                            date = getCurrentFormattedTimeUseCase(),
+                        )
                     )
-                )
+                    _uiState.update {
+                        it.copy(
+                            showError = false,
+                            isPostSaved = true
+                        )
+                    }
+                } catch (e: Exception) {
+                    _uiState.update { it.copy(showError = true) }
+                }
             }
         }
+    }
+
+    fun resetErrorState() {
+        _uiState.update { it.copy(showError = false) }
     }
 }
