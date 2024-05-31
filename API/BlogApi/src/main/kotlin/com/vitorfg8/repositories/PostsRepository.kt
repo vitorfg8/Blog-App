@@ -1,16 +1,16 @@
 package com.vitorfg8.repositories
 
-import com.vitorfg8.models.Post
+import com.vitorfg8.models.BlogPost
 
 class PostsRepository {
 
-    val posts get() = _posts.toList()
+    val blogPosts get() = _blogPosts.toList()
 
-    fun save(post: Post){
-        _posts.add(post)
+    fun save(blogPost: BlogPost){
+        _blogPosts.add(blogPost)
     }
 
     companion object{
-        private val _posts = mutableListOf<Post>()
+        private val _blogPosts = mutableListOf<BlogPost>()
     }
 }
