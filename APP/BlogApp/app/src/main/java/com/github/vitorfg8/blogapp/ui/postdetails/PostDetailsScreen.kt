@@ -16,9 +16,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.googlefonts.Font
-import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
@@ -50,7 +47,6 @@ fun PostDetailsScreen(uiState: PostDetailsUiState, onBackPressed: () -> Unit) {
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                 text = uiState.title,
                 style = MaterialTheme.typography.displaySmall,
-                fontFamily = getGoogleFont()
             )
             Text(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
@@ -64,21 +60,6 @@ fun PostDetailsScreen(uiState: PostDetailsUiState, onBackPressed: () -> Unit) {
         }
     }
 }
-
-private fun getGoogleFont(): FontFamily {
-    val provider = GoogleFont.Provider(
-        providerAuthority = "com.google.android.gms.fonts",
-        providerPackage = "com.google.android.gms",
-        certificates = R.array.com_google_android_gms_fonts_certs
-    )
-    val fontName = GoogleFont("AR One Sans")
-    return FontFamily(
-        Font(
-            googleFont = fontName, fontProvider = provider
-        )
-    )
-}
-
 
 @Preview
 @Composable

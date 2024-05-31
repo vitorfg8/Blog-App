@@ -24,10 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.googlefonts.Font
-import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -59,7 +56,6 @@ fun HomeScreen(
             title = {
                 Text(
                     text = stringResource(id = R.string.app_name),
-                    fontFamily = getGoogleFont("Quicksand"),
                     fontWeight = FontWeight.ExtraBold
                 )
             })
@@ -82,21 +78,6 @@ fun HomeScreen(
     }
 }
 
-
-private fun getGoogleFont(name: String): FontFamily {
-    val provider = GoogleFont.Provider(
-        providerAuthority = "com.google.android.gms.fonts",
-        providerPackage = "com.google.android.gms",
-        certificates = R.array.com_google_android_gms_fonts_certs
-    )
-    val fontName = GoogleFont(name)
-    return FontFamily(
-        Font(
-            googleFont = fontName, fontProvider = provider
-        )
-    )
-}
-
 @Composable
 private fun FabNewPost(onClick: () -> Unit) {
     ExtendedFloatingActionButton(
@@ -117,7 +98,6 @@ private fun PostItem(homeUiState: HomeUiState, onClick: (homeUiState: HomeUiStat
         Column(Modifier.padding(16.dp)) {
             Text(
                 text = homeUiState.title,
-                fontFamily = getGoogleFont("AR One Sans"),
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontSize = 18.sp, fontWeight = FontWeight.SemiBold
                 )
