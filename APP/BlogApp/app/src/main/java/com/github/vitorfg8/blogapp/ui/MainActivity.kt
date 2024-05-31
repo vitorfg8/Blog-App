@@ -1,4 +1,4 @@
-package com.github.vitorfg8.blogapp
+package com.github.vitorfg8.blogapp.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

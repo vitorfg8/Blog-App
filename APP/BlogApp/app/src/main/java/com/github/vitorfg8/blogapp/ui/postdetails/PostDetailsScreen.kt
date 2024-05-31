@@ -1,4 +1,4 @@
-package com.github.vitorfg8.blogapp
+package com.github.vitorfg8.blogapp.ui.postdetails
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -23,6 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
+import com.github.vitorfg8.blogapp.R
+import com.github.vitorfg8.blogapp.ui.addpost.AddPostUiState
 import com.github.vitorfg8.blogapp.ui.theme.BlogAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

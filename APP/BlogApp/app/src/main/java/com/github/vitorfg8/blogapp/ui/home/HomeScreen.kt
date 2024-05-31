@@ -1,4 +1,4 @@
-package com.github.vitorfg8.blogapp
+package com.github.vitorfg8.blogapp.ui.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.github.vitorfg8.blogapp.R
 import com.github.vitorfg8.blogapp.di.appModule
 import com.github.vitorfg8.blogapp.ui.theme.BlogAppTheme
 import org.koin.androidx.compose.koinViewModel

@@ -1,4 +1,4 @@
-package com.github.vitorfg8.blogapp
+package com.github.vitorfg8.blogapp.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

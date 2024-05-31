@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.github.vitorfg8.blogapp.AddPostScreen
-import com.github.vitorfg8.blogapp.AddPostUiState
-import com.github.vitorfg8.blogapp.HomeScreen
-import com.github.vitorfg8.blogapp.PostDetailsScreen
+import com.github.vitorfg8.blogapp.ui.addpost.AddPostScreen
+import com.github.vitorfg8.blogapp.ui.addpost.AddPostUiState
+import com.github.vitorfg8.blogapp.ui.home.HomeScreen
+import com.github.vitorfg8.blogapp.ui.postdetails.PostDetailsScreen
 
 
 @Composable
