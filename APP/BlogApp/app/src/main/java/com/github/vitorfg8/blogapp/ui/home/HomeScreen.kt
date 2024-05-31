@@ -30,6 +30,8 @@ import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.github.vitorfg8.blogapp.R
@@ -41,7 +43,9 @@ import org.koin.compose.KoinApplication
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = koinViewModel(), onPostClick: () -> Unit, onAddPostClick: () -> Unit
+    viewModel: HomeViewModel = koinViewModel(), onPostClick: (
+        title: String, description: String, date: String
+    ) -> Unit, onAddPostClick: () -> Unit
 ) {
 
     viewModel.getPosts()
@@ -63,13 +67,15 @@ fun HomeScreen(
         FabNewPost {
             onAddPostClick()
         }
-    }) {
+    }) { padding ->
         LazyColumn(
-            contentPadding = it
+            contentPadding = padding
         ) {
             items(uiState) { list ->
                 PostItem(list) {
-                    onPostClick()
+                    onPostClick(
+                        it.title, it.description, it.date
+                    )
                 }
             }
         }
@@ -101,12 +107,12 @@ private fun FabNewPost(onClick: () -> Unit) {
 }
 
 @Composable
-private fun PostItem(homeUiState: HomeUiState, onClick: () -> Unit) {
+private fun PostItem(homeUiState: HomeUiState, onClick: (homeUiState: HomeUiState) -> Unit) {
     Card(modifier = Modifier
         .padding(horizontal = 8.dp, vertical = 4.dp)
         .fillMaxWidth()
         .clickable {
-            onClick()
+            onClick(homeUiState)
         }) {
         Column(Modifier.padding(16.dp)) {
             Text(
@@ -135,22 +141,20 @@ private fun PostItem(homeUiState: HomeUiState, onClick: () -> Unit) {
 @Composable
 private fun HomeScreenPreview() {
     BlogAppTheme {
-        HomeScreen(onPostClick = {}, onAddPostClick = {})
+        HomeScreen(onPostClick = { title, description, date -> }, onAddPostClick = {})
     }
 }
 
 @Preview
 @Composable
-private fun PostItemPreview() {
+private fun PostItemPreview(@PreviewParameter(LoremIpsum::class) text: String) {
     KoinApplication(application = {
         modules(appModule)
     }) {
         BlogAppTheme {
             PostItem(
                 HomeUiState(
-                    "Hello World!",
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-                    "31/05/2024 às 09:00"
+                    "Hello World!", text, "31/05/2024 às 09:00"
                 )
             ) {}
         }

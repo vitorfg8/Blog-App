@@ -24,12 +24,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import com.github.vitorfg8.blogapp.R
-import com.github.vitorfg8.blogapp.ui.addpost.AddPostUiState
 import com.github.vitorfg8.blogapp.ui.theme.BlogAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PostDetailsScreen(postUiState: AddPostUiState, onBackPressed: () -> Unit) {
+fun PostDetailsScreen(uiState: PostDetailsUiState, onBackPressed: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("") }, navigationIcon = {
@@ -49,18 +48,18 @@ fun PostDetailsScreen(postUiState: AddPostUiState, onBackPressed: () -> Unit) {
         ) {
             Text(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                text = postUiState.postTitle,
+                text = uiState.title,
                 style = MaterialTheme.typography.displaySmall,
                 fontFamily = getGoogleFont()
             )
             Text(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
-                text = "09/06/2024",
+                text = uiState.date,
                 color = MaterialTheme.colorScheme.secondary,
                 style = MaterialTheme.typography.labelSmall
             )
             Text(
-                modifier = Modifier.padding(horizontal = 16.dp), text = postUiState.postDescription
+                modifier = Modifier.padding(horizontal = 16.dp), text = uiState.description
             )
         }
     }
@@ -86,8 +85,10 @@ private fun getGoogleFont(): FontFamily {
 private fun PostDetailsScreenPreview(@PreviewParameter(LoremIpsum::class) text: String) {
     BlogAppTheme {
         PostDetailsScreen(
-            AddPostUiState(
-                postTitle = "Hello World!", postDescription = text
+            PostDetailsUiState(
+                title = "Hello World!",
+                description = text,
+                date = "31/05/2024 às 09:00"
             )
         ) {}
     }
