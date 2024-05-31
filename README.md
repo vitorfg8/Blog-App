@@ -24,3 +24,6 @@ O Blog App é uma aplicativo que permite aos usuários listar e criar postagens.
 2. Importe o projeto dentro da para APP.
 3. Execute o aplicativo clicando no botão "Run"
 4. Aguarde até que o aplicativo seja instalado e iniciado no dispositivo ou emulador.
+
+## Arquitetura
+
