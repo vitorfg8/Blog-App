@@ -67,8 +67,8 @@ fun HomeScreen(
         LazyColumn(
             contentPadding = it
         ) {
-            items(uiState.blogPostList) {
-                PostItem(it) {
+            items(uiState) { list ->
+                PostItem(list) {
                     onPostClick()
                 }
             }
@@ -101,7 +101,7 @@ private fun FabNewPost(onClick: () -> Unit) {
 }
 
 @Composable
-private fun PostItem(homeBlogPost: HomeBlogPost, onClick: () -> Unit) {
+private fun PostItem(homeUiState: HomeUiState, onClick: () -> Unit) {
     Card(modifier = Modifier
         .padding(horizontal = 8.dp, vertical = 4.dp)
         .fillMaxWidth()
@@ -110,7 +110,7 @@ private fun PostItem(homeBlogPost: HomeBlogPost, onClick: () -> Unit) {
         }) {
         Column(Modifier.padding(16.dp)) {
             Text(
-                text = homeBlogPost.title,
+                text = homeUiState.title,
                 fontFamily = getGoogleFont("AR One Sans"),
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontSize = 18.sp, fontWeight = FontWeight.SemiBold
@@ -118,11 +118,11 @@ private fun PostItem(homeBlogPost: HomeBlogPost, onClick: () -> Unit) {
             )
             Text(
                 modifier = Modifier.padding(bottom = 8.dp),
-                text = homeBlogPost.date,
+                text = homeUiState.date,
                 style = MaterialTheme.typography.labelSmall
             )
             Text(
-                text = homeBlogPost.description,
+                text = homeUiState.description,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodyLarge
@@ -147,7 +147,7 @@ private fun PostItemPreview() {
     }) {
         BlogAppTheme {
             PostItem(
-                HomeBlogPost(
+                HomeUiState(
                     "Hello World!",
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
                     "31/05/2024 às 09:00"

@@ -14,13 +14,13 @@ class HomeViewModel(
     private val getPostsUseCase: GetPostsUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState())
+    private val _uiState = MutableStateFlow(listOf(HomeUiState()))
     val uiState = _uiState.asStateFlow()
     fun getPosts() {
         viewModelScope.launch {
             getPostsUseCase().collect { list ->
-                _uiState.value.blogPostList = list.map {
-                    HomeBlogPost(
+                _uiState.value = list.map {
+                    HomeUiState(
                         title = it.title,
                         description = it.description,
                         date = formatDateTime(it.date),
