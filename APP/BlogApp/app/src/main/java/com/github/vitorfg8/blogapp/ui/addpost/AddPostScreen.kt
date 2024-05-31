@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.vitorfg8.blogapp.R
@@ -56,18 +58,23 @@ fun AddPostScreen(
         Column(
             Modifier.padding(padding)
         ) {
-            TextField(modifier = Modifier.fillMaxWidth(), colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            ), value = uiState.postTitle, placeholder = {
-                Text(
-                    text = stringResource(R.string.enter_a_title),
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }, onValueChange = { viewModel.updateTitle(it) })
+            TextField(modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
+                ),
+                value = uiState.postTitle,
+                placeholder = {
+                    Text(
+                        text = stringResource(R.string.enter_a_title),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                },
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                onValueChange = { viewModel.updateTitle(it) })
             TextField(modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),
@@ -85,6 +92,7 @@ fun AddPostScreen(
                         style = MaterialTheme.typography.bodySmall
                     )
                 },
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
                 onValueChange = { viewModel.updateDescription(it) })
             Button(
                 modifier = Modifier
