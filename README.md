@@ -2,6 +2,18 @@
 
 O Blog App é uma aplicativo que permite aos usuários listar e criar postagens. O aplicativo se comunica com uma API REST simples, desenvolvida com [Ktor](https://ktor.io/), com o objetivo de apenas simular um serviço web
 
+<img
+  src="APP/screenshots/Screenshot_20240601_094443.png"
+  alt="Tela inicial"
+  width="300" /> <img
+  src="APP/screenshots/Screenshot_20240601_094513.png"
+  alt="Tela de detalhes da postagem"
+  width="300" />  <img
+  src="APP/screenshots/Screenshot_20240601_094535.png"
+  alt="Tela de criação de postagem"
+  width="300" />
+
+
 ## Execução do Projeto
 
 ### Preparação do Ambiente
