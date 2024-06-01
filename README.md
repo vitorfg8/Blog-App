@@ -27,7 +27,7 @@ O Blog App é uma aplicativo que permite aos usuários listar e criar postagens.
 1. Abra o IntelliJ IDEA.
 2. Importe o projeto dentro da pasta API.
 3. Localize o arquivo Application.kt dentro do projeto.
-4. Execute a aplicação clicando no botão "Run" na função main"
+4. Execute a aplicação clicando no botão "Run" na função "main"
 5. Aguarde até que a API esteja em execução.
 
 ### Execução do Aplicativo com o Android Studio

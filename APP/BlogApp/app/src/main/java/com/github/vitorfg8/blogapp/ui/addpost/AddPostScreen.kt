@@ -21,8 +21,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -35,24 +33,26 @@ import androidx.compose.ui.unit.dp
 import com.github.vitorfg8.blogapp.R
 import com.github.vitorfg8.blogapp.di.appModule
 import com.github.vitorfg8.blogapp.ui.theme.BlogAppTheme
-import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddPostScreen(
-    viewModel: AddPostViewModel = koinViewModel(),
+    uiState: AddPostUiState,
+    resetErrorState: () -> Unit,
+    updateTitle: (newTitle: String) -> Unit,
+    updateDescription: (newDescription: String) -> Unit,
+    savePost: () -> Unit,
     onBackPressed: () -> Unit,
     onPostSaved: () -> Unit
 ) {
-    val uiState by viewModel.uiState.collectAsState()
 
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
     LaunchedEffect(uiState.showError) {
         if (uiState.showError) {
             snackbarHostState.showSnackbar(context.getString(R.string.failed_to_salve_post))
-            viewModel.resetErrorState()
+            resetErrorState()
         }
     }
 
@@ -71,14 +71,17 @@ fun AddPostScreen(
         Column(
             Modifier.padding(padding)
         ) {
+
+            val transparentTextFieldColors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
+            )
+
             TextField(modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent
-                ),
+                colors = transparentTextFieldColors,
                 value = uiState.postTitle,
                 placeholder = {
                     Text(
@@ -87,17 +90,11 @@ fun AddPostScreen(
                     )
                 },
                 keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
-                onValueChange = { viewModel.updateTitle(it) })
+                onValueChange = { updateTitle(it) })
             TextField(modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent
-                ),
+                colors = transparentTextFieldColors,
                 value = uiState.postDescription,
                 placeholder = {
                     Text(
@@ -106,14 +103,14 @@ fun AddPostScreen(
                     )
                 },
                 keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
-                onValueChange = { viewModel.updateDescription(it) })
+                onValueChange = { updateDescription(it) })
             Button(
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
                 enabled = uiState.isButtonEnabled,
                 onClick = {
-                    viewModel.savePost()
+                    savePost()
                 },
                 shape = RoundedCornerShape(4.dp)
             ) {
@@ -129,12 +126,23 @@ fun AddPostScreen(
 @Preview
 @Composable
 private fun AddPostScreenPreview() {
-
     KoinApplication(application = {
         modules(appModule)
     }) {
         BlogAppTheme {
-            AddPostScreen(onBackPressed = {}, onPostSaved = {})
+            AddPostScreen(uiState = AddPostUiState(
+                postTitle = "",
+                postDescription = "",
+                isButtonEnabled = false,
+                showError = false,
+                isPostSaved = false
+            ),
+                resetErrorState = {},
+                updateTitle = {},
+                updateDescription = {},
+                savePost = {},
+                onBackPressed = {},
+                onPostSaved = {})
         }
     }
 }

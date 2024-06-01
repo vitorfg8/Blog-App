@@ -2,15 +2,20 @@ package com.github.vitorfg8.blogapp.navigation
 
 import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.github.vitorfg8.blogapp.ui.addpost.AddPostScreen
+import com.github.vitorfg8.blogapp.ui.addpost.AddPostViewModel
 import com.github.vitorfg8.blogapp.ui.home.HomeScreen
+import com.github.vitorfg8.blogapp.ui.home.HomeViewModel
 import com.github.vitorfg8.blogapp.ui.postdetails.PostDetailsScreen
 import com.github.vitorfg8.blogapp.ui.postdetails.PostDetailsUiState
+import org.koin.androidx.compose.koinViewModel
 
 
 private const val ADD_POST_ROUTE = "addPost"
@@ -22,7 +27,13 @@ fun NavGraph() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = HOME_ROUTE) {
         composable(HOME_ROUTE) {
-            HomeScreen(onPostClick = { title, description, date ->
+            val viewModel: HomeViewModel = koinViewModel()
+            viewModel.getPosts()
+            val uiState by viewModel.uiState.collectAsState()
+
+            HomeScreen(
+                uiState = uiState,
+                onPostClick = { title, description, date ->
                 val encodedTitle = Uri.encode(title)
                 val encodedDescription = Uri.encode(description)
                 val encodedDate = Uri.encode(date)
@@ -32,7 +43,15 @@ fun NavGraph() {
             })
         }
         composable(ADD_POST_ROUTE) {
-            AddPostScreen(onBackPressed = {
+            val viewModel: AddPostViewModel = koinViewModel()
+            val uiState by viewModel.uiState.collectAsState()
+            AddPostScreen(
+                uiState = uiState,
+                resetErrorState = viewModel::resetErrorState,
+                updateTitle = viewModel::updateTitle,
+                updateDescription = viewModel::updateDescription,
+                savePost = viewModel::savePost,
+                onBackPressed = {
                 navController.navigateUp()
             }, onPostSaved = {
                 navController.navigateUp()

@@ -21,8 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -39,19 +37,15 @@ import androidx.compose.ui.unit.sp
 import com.github.vitorfg8.blogapp.R
 import com.github.vitorfg8.blogapp.di.appModule
 import com.github.vitorfg8.blogapp.ui.theme.BlogAppTheme
-import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = koinViewModel(), onPostClick: (
+    uiState: HomeUiState, onPostClick: (
         title: String, description: String, date: String
     ) -> Unit, onAddPostClick: () -> Unit
 ) {
-
-    viewModel.getPosts()
-    val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
     LaunchedEffect(uiState.showError) {
@@ -67,8 +61,7 @@ fun HomeScreen(
             ),
             title = {
                 Text(
-                    text = stringResource(id = R.string.app_name),
-                    fontWeight = FontWeight.ExtraBold
+                    text = stringResource(id = R.string.app_name), fontWeight = FontWeight.ExtraBold
                 )
             })
     }, floatingActionButton = {
@@ -101,8 +94,7 @@ private fun FabNewPost(onClick: () -> Unit) {
 
 @Composable
 private fun PostItem(
-    homeUiState: HomePostUiState,
-    onClick: (homeUiState: HomePostUiState) -> Unit
+    homeUiState: HomePostUiState, onClick: (homeUiState: HomePostUiState) -> Unit
 ) {
     Card(modifier = Modifier
         .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -133,9 +125,19 @@ private fun PostItem(
 
 @Preview
 @Composable
-private fun HomeScreenPreview() {
+private fun HomeScreenPreview(@PreviewParameter(LoremIpsum::class) text: String) {
     BlogAppTheme {
-        HomeScreen(onPostClick = { title, description, date -> }, onAddPostClick = {})
+        HomeScreen(
+            uiState = HomeUiState(
+                listOf(
+                    HomePostUiState(
+                        title = "Hello World!",
+                        description = text,
+                        date = "31/05/2024 às 09:00"
+                    )
+                )
+            ),
+            onPostClick = { title, description, date -> }, onAddPostClick = {})
     }
 }
 
@@ -148,7 +150,9 @@ private fun PostItemPreview(@PreviewParameter(LoremIpsum::class) text: String) {
         BlogAppTheme {
             PostItem(
                 HomePostUiState(
-                    "Hello World!", text, "31/05/2024 às 09:00"
+                    title = "Hello World!",
+                    description = text,
+                    date = "31/05/2024 às 09:00"
                 )
             ) {}
         }
