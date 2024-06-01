@@ -5,13 +5,13 @@ O Blog App é uma aplicativo que permite aos usuários listar e criar postagens.
 <img
   src="APP/screenshots/Screenshot_20240601_094443.png"
   alt="Tela inicial"
-  width="300" /> <img
+  width="260" /> <img
   src="APP/screenshots/Screenshot_20240601_094513.png"
   alt="Tela de detalhes da postagem"
-  width="300" />  <img
+  width="260" />  <img
   src="APP/screenshots/Screenshot_20240601_094535.png"
   alt="Tela de criação de postagem"
-  width="300" />
+  width="260" />
 
 
 ## Execução do Projeto
