@@ -41,8 +41,13 @@ O Blog App é uma aplicativo que permite aos usuários listar e criar postagens.
 
 O app foi desenvolvido seguindo os padrões da arquitetura MVVM e da Clean Architecture, promovendo uma clara separação de responsabilidades e facilitando a manutenção do código. No MVVM, o Model gerencia os dados e a lógica de negócios, o View é responsável pela interface do usuário e o ViewModel atua como intermediário entre eles. Isso permite o desenvolvimento independente de cada componente, resultando em código mais organizado e reutilizável. Além disso,a Clean Architecture organiza o código em camadas bem definidas (Domain, Data e Presentation/UI), promovendo a independência entre elas e melhorando a escalabilidade do aplicativo.
 
-Foi adotado o padrão de injeção de dependências para desacoplar classes e tornar o código mais modular e testável. O Koin foi escolhido devido à sua simplicidade, integração com Kotlin e eficiência, facilitando o desenvolvimento e manutenção do código.
+<img
+  src="https://jonas-rodehorst.dev/_next/image?url=%2Fimg%2FMVVM.webp&w=1080&q=75"
+  alt="Arquitetura MVVM"
+  width="450" />
 
-Para lidar com operações assíncronas, foi utilizado Flow e Coroutines. Isso simplifica o tratamento de chamadas assíncronas, resultando em código mais limpo, fácil de manter e com melhor performance, sem a necessidade de bibliotecas externas.
+Foi adotado o padrão de injeção de dependências para desacoplar classes e tornar o código mais modular e testável. O [Koin](https://insert-koin.io/) foi escolhido devido à sua simplicidade, integração com Kotlin e eficiência, facilitando o desenvolvimento e manutenção do código.
 
-Na interface do usuário, foi utlizado o Jetpack Compose, um toolkit moderno que simplifica a construção de interfaces, permitindo criar telas com menos código e maior praticidade, utilizando a mesma linguagem do aplicativo, o Kotlin.
+Para lidar com operações assíncronas, foi utilizado [Coroutines](https://developer.android.com/kotlin/coroutines) e [Flow](https://developer.android.com/kotlin/flow). Isso simplifica o tratamento de chamadas assíncronas, resultando em código mais limpo, fácil de manter e com melhor performance, sem a necessidade de bibliotecas externas.
+
+Na interface do usuário, foi utlizado o [Jetpack Compose](https://developer.android.com/develop/ui/compose), um toolkit moderno que simplifica a construção de interfaces, permitindo criar telas com menos código e maior praticidade, utilizando a mesma linguagem do aplicativo, o Kotlin.
